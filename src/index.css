@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 98%; /* Light Gray */
+    --foreground: 224 71% 4%; /* Dark Blue-Black */
+
+    --card: 220 20% 100%;
+    --card-foreground: 224 71% 4%;
+
+    --popover: 220 20% 100%;
+    --popover-foreground: 224 71% 4%;
+
+    --primary: 220 85% 55%; /* Vibrant Blue */
+    --primary-foreground: 210 20% 98%;
+
+    --secondary: 220 15% 93%;
+    --secondary-foreground: 224 71% 4%;
+
+    --muted: 220 15% 93%;
+    --muted-foreground: 220 10% 45%;
+
+    --accent: 220 15% 93%;
+    --accent-foreground: 224 71% 4%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+
+    --border: 220 15% 87%;
+    --input: 220 15% 87%;
+    --ring: 220 85% 55%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222 47% 11%; /* Very Dark Blue */
+    --foreground: 210 40% 98%; /* Almost White */
+
+    --card: 222 47% 15%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217 91% 60%; /* Bright Blue */
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 222 47% 20%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 222 47% 20%;
+    --muted-foreground: 220 15% 65%;
+
+    --accent: 222 47% 20%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 222 47% 20%;
+    --input: 222 47% 20%;
+    --ring: 217 91% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .glass-effect {
+    @apply bg-card/60 backdrop-blur-lg border;
+  }
+
+  .gradient-bg {
+    @apply bg-gradient-to-r from-blue-600 to-indigo-600 text-white;
+  }
+
+  .ai-gradient {
+    @apply bg-gradient-to-r from-cyan-400 to-blue-500 text-white;
+  }
+
+  .trust-score-gradient {
+    @apply bg-gradient-to-r from-sky-500 to-indigo-500 text-white;
+  }
+}
