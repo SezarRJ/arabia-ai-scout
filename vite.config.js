@@ -1,6 +1,7 @@
 import path from 'node:path';
 import react from '@vitejs/plugin-react';
 import { createLogger, defineConfig } from 'vite';
+import { componentTagger } from 'lovable-tagger';
 import inlineEditPlugin from './plugins/visual-editor/vite-plugin-react-inline-editor.js';
 import editModeDevPlugin from './plugins/visual-editor/vite-plugin-edit-mode.js';
 import iframeRouteRestorationPlugin from './plugins/vite-plugin-iframe-route-restoration.js';
@@ -201,13 +202,14 @@ logger.error = (msg, options) => {
 	loggerError(msg, options);
 }
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
 	customLogger: logger,
 	plugins: [
 		...(isDev ? [inlineEditPlugin(), editModeDevPlugin(), iframeRouteRestorationPlugin()] : []),
 		react(),
+		mode === 'development' && componentTagger(),
 		addTransformIndexHtml
-	],
+	].filter(Boolean),
 	server: {
 		port: 8080,
 		cors: true,
@@ -232,4 +234,4 @@ export default defineConfig({
 			]
 		}
 	}
-});
+}));
