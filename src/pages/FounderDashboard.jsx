@@ -180,175 +180,219 @@ const FounderDashboard = ({ setMobileSidebarOpen }) => {
         <div className="flex-1">
           <Header setMobileSidebarOpen={setMobileSidebarOpen} />
           
-          <main className="p-4 sm:p-6 space-y-6">
+          <main className="p-4 sm:p-8 lg:p-12 max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-8"
+              className="mb-10"
             >
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
                 <div>
-                  <h1 className="text-3xl font-bold mb-2">
+                  <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
                     {t('welcomeBack', { firstName: user?.user_metadata?.first_name || 'Founder' })}
                   </h1>
-                  <p className="text-muted-foreground">
+                  <p className="text-muted-foreground text-lg">
                     {t('letsContinueBuilding')}
                   </p>
                 </div>
-                <Badge variant="outline" className="text-sm flex items-center space-x-2">
-                  <User className="w-4 h-4" />
+                <Badge variant="outline" className="text-sm px-4 py-2 flex items-center gap-2 border-primary/20">
+                  <User className="w-4 h-4 text-primary" />
                   <span>{t('founderAccount')}</span>
                 </Badge>
               </div>
             </motion.div>
 
-            <Card className="glass-effect w-full">
-              <CardHeader>
-                <CardTitle>{t('foundersHub')}</CardTitle>
-                <CardDescription>{t('developIdea')}</CardDescription>
-              </CardHeader>
-              <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <h3 className="font-semibold flex items-center"><Lightbulb className="w-5 h-5 mr-2 text-yellow-500"/> {t('projectConcept')}</h3>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+              <Card className="glass-effect border-primary/10 shadow-lg">
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center gap-2 text-xl">
+                    <Lightbulb className="w-6 h-6 text-yellow-500"/>
+                    {t('projectConcept')}
+                  </CardTitle>
+                  <CardDescription>{t('developIdea')}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
                   <Textarea 
                     placeholder="Describe your project idea, target market, and unique value proposition..."
-                    className="min-h-[120px]"
+                    className="min-h-[180px] text-base resize-none focus:ring-2 focus:ring-primary/20"
                     value={projectConcept}
                     onChange={(e) => setProjectConcept(e.target.value)}
                   />
-                  <Button className="w-full ai-gradient" onClick={handleEnhanceConcept}>
-                    <Sparkles className="w-4 h-4 mr-2" />
+                  <Button className="w-full ai-gradient hover:opacity-90 transition-opacity h-12 text-base font-medium" onClick={handleEnhanceConcept}>
+                    <Sparkles className="w-5 h-5 mr-2" />
                     {t('enhanceWithAI')}
                   </Button>
-                </div>
+                </CardContent>
+              </Card>
 
-                <div className="space-y-4">
-                  <h3 className="font-semibold flex items-center"><Upload className="w-5 h-5 mr-2 text-blue-500"/> {t('documentCenter')}</h3>
-                  <div className="space-y-3">
-                    <Card className="bg-background/50 border border-border">
-                      <CardContent className="p-4 flex items-center justify-between">
-                        <div>
-                          <p className="font-medium flex items-center"><UserCheck className="w-4 h-4 mr-2"/> {t('personalDocuments')}</p>
-                          <div className={`flex items-center text-sm mt-1 ${documents.kyc ? 'text-blue-400' : 'text-yellow-400'}`}>
-                            {documents.kyc ? <FileCheck className="w-4 h-4 mr-1"/> : <FileClock className="w-4 h-4 mr-1"/>}
-                            <span>{documents.kyc ? 'KYC Verified' : t('verificationPending')}</span>
-                          </div>
+              <Card className="glass-effect border-primary/10 shadow-lg">
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center gap-2 text-xl">
+                    <Upload className="w-6 h-6 text-primary"/>
+                    {t('documentCenter')}
+                  </CardTitle>
+                  <CardDescription>Upload documents to boost your score</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <Card className="bg-background/80 border-2 border-border/50 hover:border-primary/30 transition-colors">
+                    <CardContent className="p-5 flex items-center justify-between">
+                      <div className="flex-1">
+                        <p className="font-semibold flex items-center gap-2 mb-2">
+                          <UserCheck className="w-5 h-5 text-primary"/> 
+                          {t('personalDocuments')}
+                        </p>
+                        <div className={`flex items-center text-sm font-medium ${documents.kyc ? 'text-green-500' : 'text-amber-500'}`}>
+                          {documents.kyc ? <FileCheck className="w-4 h-4 mr-1.5"/> : <FileClock className="w-4 h-4 mr-1.5"/>}
+                          <span>{documents.kyc ? 'KYC Verified' : t('verificationPending')}</span>
                         </div>
-                        <Button variant="outline" size="sm" onClick={() => handleUpload('KYC')}>{t('upload')}</Button>
-                      </CardContent>
-                    </Card>
-                     <Card className="bg-background/50 border border-border">
-                      <CardContent className="p-4 flex items-center justify-between">
-                        <div>
-                          <p className="font-medium flex items-center"><FileText className="w-4 h-4 mr-2"/> {t('businessDocuments')}</p>
-                           <div className={`flex items-center text-sm mt-1 ${documents.pitchDeck ? 'text-blue-400' : 'text-yellow-400'}`}>
-                            {documents.pitchDeck ? <FileCheck className="w-4 h-4 mr-1"/> : <FileClock className="w-4 h-4 mr-1"/>}
-                            <span>{documents.pitchDeck ? t('pitchDeckVerified') : 'Pitch Deck Pending'}</span>
-                          </div>
+                      </div>
+                      <Button variant="outline" size="sm" className="h-10 px-4" onClick={() => handleUpload('KYC')}>{t('upload')}</Button>
+                    </CardContent>
+                  </Card>
+
+                  <Card className="bg-background/80 border-2 border-border/50 hover:border-primary/30 transition-colors">
+                    <CardContent className="p-5 flex items-center justify-between">
+                      <div className="flex-1">
+                        <p className="font-semibold flex items-center gap-2 mb-2">
+                          <FileText className="w-5 h-5 text-primary"/> 
+                          {t('businessDocuments')}
+                        </p>
+                        <div className={`flex items-center text-sm font-medium ${documents.pitchDeck ? 'text-green-500' : 'text-amber-500'}`}>
+                          {documents.pitchDeck ? <FileCheck className="w-4 h-4 mr-1.5"/> : <FileClock className="w-4 h-4 mr-1.5"/>}
+                          <span>{documents.pitchDeck ? t('pitchDeckVerified') : 'Pitch Deck Pending'}</span>
                         </div>
-                        <Button variant="outline" size="sm" onClick={() => handleUpload('Business Docs')}>{t('upload')}</Button>
-                      </CardContent>
-                    </Card>
+                      </div>
+                      <Button variant="outline" size="sm" className="h-10 px-4" onClick={() => handleUpload('Business Docs')}>{t('upload')}</Button>
+                    </CardContent>
+                  </Card>
+
+                  <div className="text-sm text-muted-foreground p-4 rounded-lg bg-primary/5 flex items-start gap-3 border border-primary/20">
+                    <HelpCircle className="w-5 h-5 shrink-0 text-primary mt-0.5"/>
+                    <span>{t('uploadingImprovesScore')}</span>
                   </div>
-                   <div className="text-xs text-muted-foreground p-2 rounded-lg bg-background/30 flex items-center border border-border">
-                      <HelpCircle className="w-4 h-4 mr-2 shrink-0"/>
-                      <span>{t('uploadingImprovesScore')}</span>
-                    </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <TrustScore
                 score={user?.user_metadata?.trust_score || 0}
                 profileComplete={user?.user_metadata?.profile_complete || 0}
                 verified={!!user?.email_confirmed_at}
               />
               
-              <Card className="glass-effect">
+              <Card className="glass-effect border-primary/10 shadow-lg hover:shadow-xl transition-shadow">
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">{t('investorMatches')}</CardTitle>
+                  <CardTitle className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">{t('investorMatches')}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">0</div>
-                  <div className="flex items-center text-sm text-blue-500">
-                    <Target className="w-4 h-4 mr-1" />
+                  <div className="text-4xl font-bold mb-2">0</div>
+                  <div className="flex items-center gap-2 text-sm text-primary font-medium">
+                    <Target className="w-4 h-4" />
                     <span>{t('newThisWeek', { count: 0 })}</span>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="glass-effect">
+              <Card className="glass-effect border-primary/10 shadow-lg hover:shadow-xl transition-shadow">
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">{t('messages')}</CardTitle>
+                  <CardTitle className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">{t('messages')}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">0</div>
-                  <div className="flex items-center text-sm text-primary">
-                    <MessageSquare className="w-4 h-4 mr-1" />
+                  <div className="text-4xl font-bold mb-2">0</div>
+                  <div className="flex items-center gap-2 text-sm text-primary font-medium">
+                    <MessageSquare className="w-4 h-4" />
                     <span>{t('unread', { count: 0 })}</span>
                   </div>
                 </CardContent>
               </Card>
             </div>
 
-            <Card className="glass-effect">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2 rtl:space-x-reverse">
-                  <BrainCircuit className="w-6 h-6 ai-gradient rounded p-1" />
-                  <span>{t('aiProjectScore')}</span>
-                </CardTitle>
-                <CardDescription>
-                  {t('aiAnalysisDescription')}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-1 flex flex-col items-center justify-center space-y-4 p-4 rounded-lg bg-background/50 border border-border">
-                  <div className="text-6xl font-bold text-foreground">{aiProjectScoreData.score}</div>
-                  <div className="flex items-center space-x-2">
-                    <Badge className={getScoreBadgeColor(aiProjectScoreData.badge)}>
-                      <Award className="w-4 h-4 mr-1"/> {aiProjectScoreData.badge}
-                    </Badge>
-                    <Badge variant="secondary">{aiProjectScoreData.stage} Stage</Badge>
+            <Card className="glass-effect border-primary/10 shadow-lg">
+              <CardHeader className="pb-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="flex items-center gap-3 text-2xl mb-2">
+                      <div className="p-2 rounded-lg ai-gradient">
+                        <BrainCircuit className="w-6 h-6 text-white" />
+                      </div>
+                      <span>{t('aiProjectScore')}</span>
+                    </CardTitle>
+                    <CardDescription className="text-base">
+                      {t('aiAnalysisDescription')}
+                    </CardDescription>
                   </div>
-                  <p className="text-sm text-muted-foreground text-center">{t('basedOn10FactorModel')}</p>
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <Info className="w-4 h-4" />
+                    Details
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardContent className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-1 flex flex-col items-center justify-center space-y-6 p-8 rounded-2xl bg-gradient-to-br from-primary/5 to-primary/10 border-2 border-primary/20">
+                  <div className="text-7xl font-bold bg-gradient-to-br from-primary to-blue-600 bg-clip-text text-transparent">
+                    {aiProjectScoreData.score}
+                  </div>
+                  <div className="flex flex-col items-center gap-3">
+                    <Badge className={`${getScoreBadgeColor(aiProjectScoreData.badge)} px-4 py-1.5 text-sm font-semibold`}>
+                      <Award className="w-4 h-4 mr-2"/> {aiProjectScoreData.badge}
+                    </Badge>
+                    <Badge variant="secondary" className="px-4 py-1.5 text-sm font-semibold">
+                      {aiProjectScoreData.stage} Stage
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-muted-foreground text-center font-medium">{t('basedOn10FactorModel')}</p>
                 </div>
                 <div className="lg:col-span-2">
                   <RadarChart data={aiProjectScoreData.factors} />
                 </div>
               </CardContent>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-3">
-                    <h4 className="font-semibold flex items-center"><BarChart className="w-5 h-5 mr-2"/> {t('aiSworAnalysis')}</h4>
-                    <div className="p-4 rounded-lg bg-background/50 border border-border space-y-2">
-                      <p className="font-medium text-blue-400">{t('strengths')}</p>
-                      <ul className="list-disc list-inside text-sm text-muted-foreground">
-                        {aiProjectScoreData.swor.strengths.length > 0 ? aiProjectScoreData.swor.strengths.map(s => <li key={s}>{s}</li>) : <li>No strengths identified yet.</li>}
+              <CardContent className="pt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-4">
+                    <h4 className="font-bold text-lg flex items-center gap-2 mb-4">
+                      <BarChart className="w-5 h-5 text-primary"/> 
+                      {t('aiSworAnalysis')}
+                    </h4>
+                    <div className="p-5 rounded-xl bg-gradient-to-br from-blue-500/10 to-blue-500/5 border-2 border-blue-500/20 space-y-3">
+                      <p className="font-bold text-blue-500 flex items-center gap-2 text-base">
+                        {t('strengths')}
+                      </p>
+                      <ul className="list-disc list-inside text-sm text-foreground/80 space-y-1.5">
+                        {aiProjectScoreData.swor.strengths.length > 0 ? aiProjectScoreData.swor.strengths.map(s => <li key={s} className="leading-relaxed">{s}</li>) : <li>No strengths identified yet.</li>}
                       </ul>
                     </div>
-                     <div className="p-4 rounded-lg bg-background/50 border border-border space-y-2">
-                      <p className="font-medium text-yellow-400">{t('weaknesses')}</p>
-                      <ul className="list-disc list-inside text-sm text-muted-foreground">
-                        {aiProjectScoreData.swor.weaknesses.length > 0 ? aiProjectScoreData.swor.weaknesses.map(w => <li key={w}>{w}</li>) : <li>No weaknesses identified yet.</li>}
+                    <div className="p-5 rounded-xl bg-gradient-to-br from-amber-500/10 to-amber-500/5 border-2 border-amber-500/20 space-y-3">
+                      <p className="font-bold text-amber-500 flex items-center gap-2 text-base">
+                        {t('weaknesses')}
+                      </p>
+                      <ul className="list-disc list-inside text-sm text-foreground/80 space-y-1.5">
+                        {aiProjectScoreData.swor.weaknesses.length > 0 ? aiProjectScoreData.swor.weaknesses.map(w => <li key={w} className="leading-relaxed">{w}</li>) : <li>No weaknesses identified yet.</li>}
                       </ul>
                     </div>
                   </div>
-                   <div className="space-y-3">
-                    <h4 className="font-semibold flex items-center"><ShieldAlert className="w-5 h-5 mr-2"/> {t('aiRiskAssessment')}</h4>
-                     <div className="p-4 rounded-lg bg-background/50 border border-border space-y-2">
-                      <p className="font-medium text-cyan-400">{t('opportunities')}</p>
-                      <ul className="list-disc list-inside text-sm text-muted-foreground">
-                        {aiProjectScoreData.swor.opportunities.length > 0 ? aiProjectScoreData.swor.opportunities.map(o => <li key={o}>{o}</li>) : <li>No opportunities identified yet.</li>}
+                  <div className="space-y-4">
+                    <h4 className="font-bold text-lg flex items-center gap-2 mb-4">
+                      <ShieldAlert className="w-5 h-5 text-primary"/> 
+                      {t('aiRiskAssessment')}
+                    </h4>
+                    <div className="p-5 rounded-xl bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 border-2 border-cyan-500/20 space-y-3">
+                      <p className="font-bold text-cyan-500 flex items-center gap-2 text-base">
+                        {t('opportunities')}
+                      </p>
+                      <ul className="list-disc list-inside text-sm text-foreground/80 space-y-1.5">
+                        {aiProjectScoreData.swor.opportunities.length > 0 ? aiProjectScoreData.swor.opportunities.map(o => <li key={o} className="leading-relaxed">{o}</li>) : <li>No opportunities identified yet.</li>}
                       </ul>
                     </div>
-                     <div className="p-4 rounded-lg bg-background/50 border border-border space-y-2">
+                    <div className="p-5 rounded-xl bg-gradient-to-br from-red-500/10 to-red-500/5 border-2 border-red-500/20 space-y-3">
                       <div className="flex justify-between items-center">
-                        <p className="font-medium text-red-500">{t('risks')}</p>
+                        <p className="font-bold text-red-500 flex items-center gap-2 text-base">
+                          {t('risks')}
+                        </p>
                         <Dialog open={isRiskModalOpen} onOpenChange={setIsRiskModalOpen}>
                           <DialogTrigger asChild>
-                            <Button variant="link" size="sm" className="text-blue-500">
-                              <BookOpen className="w-4 h-4 mr-1"/> {t('viewSpecialReport')}
+                            <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80 gap-2">
+                              <BookOpen className="w-4 h-4"/> {t('viewSpecialReport')}
                             </Button>
                           </DialogTrigger>
                           <DialogContent className="max-w-4xl glass-effect">
@@ -403,14 +447,14 @@ const FounderDashboard = ({ setMobileSidebarOpen }) => {
                           </DialogContent>
                         </Dialog>
                       </div>
-                      <ul className="list-disc list-inside text-sm text-muted-foreground">
-                        {aiProjectScoreData.swor.risks.length > 0 ? aiProjectScoreData.swor.risks.map(r => <li key={r}>{r}</li>) : <li>No risks identified yet.</li>}
+                      <ul className="list-disc list-inside text-sm text-foreground/80 space-y-1.5">
+                        {aiProjectScoreData.swor.risks.length > 0 ? aiProjectScoreData.swor.risks.map(r => <li key={r} className="leading-relaxed">{r}</li>) : <li>No risks identified yet.</li>}
                       </ul>
                     </div>
                   </div>
                 </div>
-                <div className="mt-4 text-xs text-muted-foreground p-2 rounded-lg bg-background/30 flex items-center border border-border">
-                  <Info className="w-4 h-4 mr-2 shrink-0"/>
+                <div className="mt-6 text-sm text-muted-foreground p-4 rounded-xl bg-primary/5 flex items-start gap-3 border border-primary/20">
+                  <Info className="w-5 h-5 shrink-0 text-primary mt-0.5"/>
                   <span>{t('aiReportInfo')}</span>
                 </div>
               </CardContent>
