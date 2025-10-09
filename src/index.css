@@ -90,6 +90,6 @@
   }
 
   .trust-score-gradient {
-    @apply bg-gradient-to-r from-sky-500 to-indigo-500 text-white;
+    @apply bg-gradient-to-br from-emerald-500 via-blue-500 to-purple-500 text-white shadow-lg;
   }
 }

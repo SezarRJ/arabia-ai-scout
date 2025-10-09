@@ -53,7 +53,7 @@ const BottomNav = () => {
   }
 
   return (
-    <div className="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-background/80 backdrop-blur-lg border-t border-border z-40">
+    <div className="lg:hidden fixed top-16 left-0 right-0 h-14 bg-card/95 backdrop-blur-lg border-b border-border z-30 shadow-sm">
       <nav className="h-full">
         <ul className="flex justify-around items-center h-full px-2">
           {navItems.map((item) => {
@@ -63,13 +63,13 @@ const BottomNav = () => {
                 <button
                   onClick={() => navigate(item.href)}
                   className={cn(
-                    "w-full h-full flex flex-col items-center justify-center text-xs gap-1 transition-colors",
-                    isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+                    "w-full h-full flex flex-col items-center justify-center text-xs gap-1 transition-colors rounded-lg",
+                    isActive ? 'text-primary bg-primary/10' : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                   )}
                   aria-current={isActive ? "page" : undefined}
                 >
                   <item.icon className="w-5 h-5" />
-                  <span>{item.title}</span>
+                  <span className="font-medium">{item.title}</span>
                 </button>
               </li>
             );

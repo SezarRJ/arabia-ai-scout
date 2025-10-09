@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/select';
 import { Bell, Settings, LogOut, Globe, Shield, User, Home, FileUp, Menu } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
+import TrustScore from '@/components/TrustScore';
 
 const adminNotifications = [
   { id: 1, text: "Aisha Al-Fulan uploaded 'ID_Card.jpg'", time: "2m ago" },
@@ -116,12 +117,14 @@ const Header = ({ setMobileSidebarOpen }) => {
 
           {user ? (
             <>
-              {userRole !== 'admin' && (
-                <div className="hidden sm:flex items-center space-x-2 rtl:space-x-reverse">
-                  <Badge variant="outline" className="trust-score-gradient text-white border-0">
-                    <Shield className="w-3 h-3 mr-1 rtl:mr-0 rtl:ml-1" />
-                    {user.user_metadata?.trust_score || 0}
-                  </Badge>
+              {userRole === 'founder' && (
+                <div className="hidden md:block w-64">
+                  <TrustScore 
+                    score={user.user_metadata?.trust_score || 45}
+                    profileComplete={user.user_metadata?.profile_complete || 60}
+                    verified={user.user_metadata?.verified || false}
+                    className="h-auto"
+                  />
                 </div>
               )}
 
